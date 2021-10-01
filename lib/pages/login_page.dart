@@ -14,96 +14,130 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String name = "";
   bool loginButtonClicked = false;
+  final _formKey = GlobalKey<FormState>();
+
+  moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        loginButtonClicked = true;
+      });
+      await Future.delayed(Duration(seconds: 1));
+      await Navigator.pushNamed(context, Routes.home);
+      setState(() {
+        loginButtonClicked = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              "assets/images/loginimage2.png",
-              fit: BoxFit.cover,
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Text(
-              "Welcome $name!",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/images/loginimage2.png",
+                fit: BoxFit.cover,
               ),
-            ),
-            SizedBox(
-              height: 20.2,
-              child: Text(
-                "Signup Form",
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                "Welcome $name!",
                 style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Username",
-                      hintText: "Enter username",
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
+              SizedBox(
+                height: 20.2,
+                child: Text(
+                  "Signup Form",
+                  style: TextStyle(
+                    color: Colors.black,
                   ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      hintText: "Enter password",
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      setState(() {
-                        loginButtonClicked = !loginButtonClicked;
-                      });
-                      await Future.delayed(Duration(seconds: 1));
-                      Navigator.pushNamed(context, Routes.home);
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(seconds: 1),
-                      width: loginButtonClicked ? 40 : 150,
-                      height: 40,
-                      alignment: Alignment.center,
-                      child: loginButtonClicked
-                          ? Icon(
-                              Icons.done,
-                              color: Colors.white,
-                            )
-                          : Text(
-                              "Login",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              loginButtonClicked ? 24.0 : 5.0),
-                          color: Colors.deepPurple),
-                    ),
-                  )
-                ],
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Username",
+                        hintText: "Enter sername",
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          name = value;
+                        });
+                      },
+                      validator: (String? value) {
+                        print(value);
+                        if (value!.isEmpty) {
+                          return "Username cannot be empty";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.deepPurple),
+                        ),
+                        labelText: "Password",
+                        hintText: "Enter password",
+                      ),
+                      validator: (String? value) {
+                        print(value);
+                        if (value!.isEmpty) {
+                          return "Password cannot be empty";
+                        } else if (value.length < 6) {
+                          return "Password needs to be a minimum of 6 characters";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Material(
+                      borderRadius: BorderRadius.circular(
+                          loginButtonClicked ? 24.0 : 5.0),
+                      color: Colors.deepPurple,
+                      child: InkWell(
+                        onTap: () => moveToHome(context),
+                        child: AnimatedContainer(
+                          duration: Duration(seconds: 1),
+                          width: loginButtonClicked ? 40 : 150,
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: loginButtonClicked
+                              ? Icon(
+                                  Icons.done,
+                                  color: Colors.white,
+                                )
+                              : Text(
+                                  "Login",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
