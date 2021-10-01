@@ -8,14 +8,21 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileImage = "https://userphotos2.teacheron.com/725838-84573.jpg";
     return Drawer(
+      elevation: 1.2,
       child: Container(
-        color: Colors.deepPurple,
+        color: Colors.black,
         child: ListView(
           children: [
             DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black,
+              ),
               margin: EdgeInsets.zero,
               padding: EdgeInsets.zero,
               child: UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                ),
                 margin: EdgeInsets.zero,
                 accountName: Text("Gidennon M."),
                 accountEmail: Text("gmmeremnwanne@gmail.com"),

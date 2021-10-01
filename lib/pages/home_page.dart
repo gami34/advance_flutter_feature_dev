@@ -11,10 +11,15 @@ class Homepage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Catelog value"),
+        title: const Text(
+          "Catelog value",
+        ),
       ),
-      body: Center(
-        child: Text("This is $numbers persons, created by $name!"),
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: Text("This is $numbers persons, created by $name!"),
+        ),
       ),
       drawer: MyDrawer(),
     );
