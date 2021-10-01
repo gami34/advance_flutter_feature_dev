@@ -4,8 +4,16 @@ import 'package:catalog_app/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String name = "";
+  bool loginButtonClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +30,7 @@ class LoginPage extends StatelessWidget {
               height: 20.0,
             ),
             Text(
-              "Welcome Champ!",
+              "Welcome $name!",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -48,6 +56,11 @@ class LoginPage extends StatelessWidget {
                       labelText: "Username",
                       hintText: "Enter username",
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        name = value;
+                      });
+                    },
                   ),
                   TextFormField(
                     obscureText: true,
@@ -59,13 +72,34 @@ class LoginPage extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-                  ElevatedButton(
-                    style: TextButton.styleFrom(minimumSize: Size(200, 40)),
-                    onPressed: () {
+                  InkWell(
+                    onTap: () async {
+                      setState(() {
+                        loginButtonClicked = !loginButtonClicked;
+                      });
+                      await Future.delayed(Duration(seconds: 1));
                       Navigator.pushNamed(context, Routes.home);
                     },
-                    child: Text("Login"),
-                  ),
+                    child: AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      width: loginButtonClicked ? 40 : 150,
+                      height: 40,
+                      alignment: Alignment.center,
+                      child: loginButtonClicked
+                          ? Icon(
+                              Icons.done,
+                              color: Colors.white,
+                            )
+                          : Text(
+                              "Login",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              loginButtonClicked ? 24.0 : 5.0),
+                          color: Colors.deepPurple),
+                    ),
+                  )
                 ],
               ),
             ),
