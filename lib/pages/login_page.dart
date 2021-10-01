@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 20.2,
+                height: 40.2,
                 child: Text(
                   "Signup Form",
                   style: TextStyle(
@@ -69,6 +69,10 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextFormField(
                       decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: Colors.deepPurple,
+                        )),
                         labelText: "Username",
                         hintText: "Enter sername",
                       ),
